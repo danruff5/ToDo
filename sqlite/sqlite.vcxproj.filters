@@ -21,6 +21,9 @@
     <ClInclude Include="..\external\headers\sqlite\sqlite3ext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SqliteDatabase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shell.c">
