@@ -3,17 +3,18 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
 
 class Statement {
 public:
-	enum action {
+	enum action_t {
 		inserts,
 		updates,
 		deletes
 	};
 
 public:
-	Statement(action action, std::string table);
+	Statement(action_t action, std::string table);
 
 	Statement & string(std::string column, std::string value);
 	Statement & number(std::string column, long long value);
@@ -33,8 +34,30 @@ private:
 		typename void * value;
 	};
 
-	std::vector<item> columns;
-	action action;
+	std::vector<item> _columns;
+	action_t _action;
+	std::string _table;
+
+public:
+	action_t action() { return this->_action; }
+	std::string table() { return this->_table; }
+	unsigned int count() { return this->_columns.size(); }
+
+	std::string & columns() { 
+		std::ostringstream oss;
+		oss << "(";
+		bool first = true;
+
+		for (item i : this->_columns) {
+			if (!first) {
+				oss << ", ";
+				first = false;
+			}
+			oss << i.column;
+		}
+
+		oss << ")";
+	}
 };
 
 #endif // !_Statement_HG_
