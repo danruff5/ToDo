@@ -160,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="shell.c" />
     <ClCompile Include="sqlite3.c" />
+    <ClCompile Include="SqliteDatabase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\persistence\persistence.vcxproj">
