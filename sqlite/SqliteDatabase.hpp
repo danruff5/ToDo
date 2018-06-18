@@ -13,7 +13,7 @@ public:
 	SqliteDatabase(std::string filename);
 
 	virtual void execute(std::string sql);
-	virtual void execute(Statement stmt);
+	virtual Result execute(Statement stmt);
 };
 
 #endif // !_SqliteDatabase_HG_

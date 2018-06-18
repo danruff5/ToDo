@@ -13,6 +13,7 @@ enum priority {
 
 class ToDoItem {
 public:
+	int id;
 	std::string title;
 	std::string description;
 	time_t due_date;

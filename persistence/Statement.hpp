@@ -4,13 +4,15 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <functional>
 
 class Statement {
 public:
 	enum action_t {
 		inserts,
 		updates,
-		deletes
+		deletes,
+		selects
 	};
 
 public:
@@ -31,21 +33,27 @@ private:
 
 		std::string column;
 		std::string type_name;
-		typename void * value;
+		void * value;
 	};
 
 	std::vector<item> _columns;
 	action_t _action;
 	std::string _table;
 
+	
+
 public:
 	action_t action() { return this->_action; }
 	std::string table() { return this->_table; }
 	unsigned int count() { return this->_columns.size(); }
+	void populate(std::function<void (int, std::string, void *)>f) {
+		for (int i = 1; i <= this->_columns.size(); ++i) {
+			f(i, this->_columns[i].type_name, this->_columns[i].value);
+		}
+	}
 
 	std::string & columns() { 
 		std::ostringstream oss;
-		oss << "(";
 		bool first = true;
 
 		for (item i : this->_columns) {
@@ -55,8 +63,6 @@ public:
 			}
 			oss << i.column;
 		}
-
-		oss << ")";
 	}
 };
 

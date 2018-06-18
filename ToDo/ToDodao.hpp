@@ -7,9 +7,10 @@
 class ToDodao {
 	iDatabase * db;
 public:
-	ToDodao(iDatabase database);
+	ToDodao(iDatabase * database);
 
 	void insert(ToDoItem & item);
 	void update(ToDoItem & item);
+	void ToDoItem get(int id);
 
 #endif // !_ToDodao_HG_
