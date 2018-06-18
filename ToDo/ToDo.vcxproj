@@ -144,14 +144,12 @@
     <ClInclude Include="ToDoItem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\persistence\persistence.vcxproj">
-      <Project>{682d9fb4-c5a2-4678-8d73-22427b6e2a22}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\sqlite\sqlite.vcxproj">
       <Project>{1b3e3e24-a3ff-4aa1-9e0c-83d1b4cf814e}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ToDodao.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

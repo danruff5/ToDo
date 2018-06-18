@@ -1,4 +1,5 @@
 #include "ToDodao.hpp"
+#include <iomanip>
 
 ToDodao::ToDodao(iDatabase * database) : db(database) {
 	// ensure the table is in the database.
@@ -19,7 +20,9 @@ void ToDodao::insert(ToDoItem & item) {
 	
 	stmt.string("title", item.title);
 	stmt.string("description", item.description);
-	stmt.string("due_date", ctime(&item.due_date));
+	std::ostringstream oss;
+	oss << std::put_time(&item.due_date, "d/m/Y");
+	stmt.string("due_date", oss.str());
 	stmt.number("priority", item.priority);
 
 	db->execute(stmt);
@@ -31,7 +34,9 @@ void ToDodao::update(ToDoItem & item) {
 	stmt.number("id", item.id);
 	stmt.string("title", item.title);
 	stmt.string("description", item.description);
-	stmt.string("due_date", ctime(&item.due_date));
+	std::ostringstream oss;
+	oss << std::put_time(&item.due_date, "d/m/Y");
+	stmt.string("due_date", oss.str());
 	stmt.number("priority", item.priority);
 
 	db->execute(stmt);

@@ -2,7 +2,7 @@
 #define _ToDoItem_HG_
 
 #include <string>
-#include <chrono>
+#include <ctime>
 
 enum priority {
 	low,
@@ -15,7 +15,7 @@ struct ToDoItem {
 	int id;
 	std::string title;
 	std::string description;
-	time_t due_date;
+	std::tm due_date;
 	priority priority;
 };
 

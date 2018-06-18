@@ -21,5 +21,8 @@
     <ClInclude Include="Statement.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
