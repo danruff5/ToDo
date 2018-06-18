@@ -11,8 +11,7 @@ enum priority {
 	extreme
 };
 
-class ToDoItem {
-public:
+struct ToDoItem {
 	int id;
 	std::string title;
 	std::string description;

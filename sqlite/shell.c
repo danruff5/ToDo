@@ -78,7 +78,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
-#include "sqlite3.h"
+#include "../external/headers/sqlite/sqlite3.h"
 #if SQLITE_USER_AUTHENTICATION
 # include "sqlite3userauth.h"
 #endif

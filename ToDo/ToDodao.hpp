@@ -11,6 +11,7 @@ public:
 
 	void insert(ToDoItem & item);
 	void update(ToDoItem & item);
-	void ToDoItem get(int id);
+	ToDoItem get(int id);
+};
 
 #endif // !_ToDodao_HG_

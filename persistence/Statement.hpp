@@ -15,7 +15,6 @@ public:
 		selects
 	};
 
-public:
 	Statement(action_t action, std::string table);
 
 	Statement & string(std::string column, std::string value);
@@ -40,7 +39,6 @@ private:
 	action_t _action;
 	std::string _table;
 
-	
 
 public:
 	action_t action() { return this->_action; }
@@ -52,7 +50,7 @@ public:
 		}
 	}
 
-	std::string & columns() { 
+	std::string columns() { 
 		std::ostringstream oss;
 		bool first = true;
 
@@ -63,6 +61,8 @@ public:
 			}
 			oss << i.column;
 		}
+
+		return oss.str();
 	}
 };
 
