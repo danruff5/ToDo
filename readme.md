@@ -23,9 +23,8 @@ Visual studio projects:
   - Contains the main application code. All the to do implementation is in here 
 
 
-Comands:
-| Command | Description                   |
-|--------|--------------------------------|
+| Command  | Description |
+| ------------- | ------------- |
 | help   | display this help.             |
 | quit   | exits the program.             |
 | add    | create a new to do.            |
@@ -33,9 +32,3 @@ Comands:
 | edit   | add a note to a to do.         |
 | delete | remove a to do.                |
 
-
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
