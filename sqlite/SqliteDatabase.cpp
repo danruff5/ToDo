@@ -1,6 +1,17 @@
 #include "SqliteDatabase.hpp"
 #include <Result.hpp>
 #include <sstream>
+#include <typeinfo>
+
+// Check windows (the pointer to a char pointer type changes based on version and typeid(char * *) does not match ever.
+#if _WIN32 || _WIN64
+	#if _WIN64
+		#define CHAR_PTR_TYPE char * __ptr64
+	#else
+		#define CHAR_PTR_TYPE char * __ptr32
+	#endif
+#endif
+
 
 SqliteDatabase::~SqliteDatabase() {
 	sqlite3_close(db);
@@ -41,9 +52,9 @@ Result SqliteDatabase::execute(Statement stmt) {
 		// SELECT columns, ... FROM table WHERE column = ?1 [AND|OR] ...;
 		case Statement::action_t::inserts:
 			// INSERT INTO table (columns) VALUES (?1, ...);
-			oss << "INSERT INTO " << stmt.table() << "("  << stmt.columns() << ")" << " VALUES (";
-			for (int i = 0; i < stmt.count(); ++i) {
-				if (i != 0) oss << ", ";
+			oss << "INSERT INTO " << stmt.table() << " ("  << stmt.columns() << ")" << " VALUES (";
+			for (int i = 1; i <= stmt.count(); ++i) {
+				if (i != 1) oss << ", ";
 				oss << "?" << i;
 			}
 			oss << ");";
@@ -74,19 +85,24 @@ Result SqliteDatabase::execute(Statement stmt) {
 		NULL
 	);
 
-	stmt.populate([s] (int id, std::string type, void * value) {
-		if (type == typeid(long long).name()) {
-			sqlite3_bind_int(s, id, *((int *)value));
-		} else if (type == typeid(double).name()) {
-			sqlite3_bind_double(s, id, *((double *)value));
-		} else if (type == typeid(std::string).name()) {
-			sqlite3_bind_text(s, id, ((std::string *)value)->c_str(), -1, SQLITE_STATIC);
-			                                                       // Length until first null terminator
-			                                                           // No need to call a destructor
-		}
-	});
+	printf("SQLite error: %s\n", sqlite3_errmsg(db));
 
-	int r = sqlite3_step(s);
+	stmt.populate([s] (int id, size_t type_hash, void * value) {
+		if (type_hash == typeid(int).hash_code()) {
+			int * v = (int *)value;
+			sqlite3_bind_int(s, id, *v);
+		} else if (type_hash == typeid(double).hash_code()) {
+			double * v = (double *)value;
+			sqlite3_bind_double(s, id, *v);
+		} else if (type_hash == typeid(CHAR_PTR_TYPE).hash_code()) {
+			char * * v = (char * *)value;
+			sqlite3_bind_text(s, id, *v, -1, SQLITE_STATIC);
+			                          // Length until first null terminator
+			                              // No need to call a destructor
+		}
+		
+	});
+	printf("SQLite error: %s\n", sqlite3_errmsg(db));
 
 	// Execute (and retrieve data....).
 	Result result;
@@ -100,13 +116,17 @@ Result SqliteDatabase::execute(Statement stmt) {
 		// for every column in the result.
 		for (int i = 0; i < numcol; ++i) {
 			switch (sqlite3_column_type(s, i)) {
-				case SQLITE_INTEGER:
-					result.add_number(sqlite3_column_int(s, i));
+				case SQLITE_INTEGER: {
+					int * number = new int;
+					*number = sqlite3_column_int(s, i);
+					result.add_number(number);
 					break;
-				case SQLITE_FLOAT:
-					result.add_decimal(sqlite3_column_double(s, i));
+				} case SQLITE_FLOAT: {
+					double * decimal = new double;
+					*decimal = sqlite3_column_double(s, i);
+					result.add_decimal(decimal);
 					break;
-				case SQLITE_TEXT: {
+				} case SQLITE_TEXT: {
 					std::string temp(reinterpret_cast<const char *>(sqlite3_column_text(s, i)));
 
 					result.add_string(temp);
