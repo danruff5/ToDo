@@ -19,7 +19,7 @@ void ToDodao::insert(ToDoItem & item) {
 	Statement stmt(Statement::action_t::inserts, "todo");
 
 	std::ostringstream oss;
-	oss << std::put_time(&item.due_date, "d/m/Y");
+	oss << std::put_time(&item.due_date, "%d/%m/%Y");
 	std::string s(oss.str());
 	
 	stmt.string("title", item.title)
