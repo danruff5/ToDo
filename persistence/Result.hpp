@@ -6,7 +6,7 @@
 
 class Result {
 	std::vector<std::vector<void *>> data;
-	size_t row = 0;
+	size_t row = -1; // add row first then index becomes 0.
 public:
 	int number(int column, int row = 0);
 	double decimal(int column, int row = 0);

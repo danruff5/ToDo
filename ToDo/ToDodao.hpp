@@ -12,6 +12,7 @@ public:
 	void insert(ToDoItem & item);
 	void update(ToDoItem & item);
 	ToDoItem get(int id);
+	std::vector<ToDoItem> get_all();
 };
 
 #endif // !_ToDodao_HG_

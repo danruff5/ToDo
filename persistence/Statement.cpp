@@ -28,6 +28,27 @@ Statement & Statement::decimal(std::string column, double value) {
 	return *this;
 }
 
+Statement & Statement::where(std::string column, std::string value) {
+	_where = std::pair<std::string, std::string>(column, value);
+	return *this;
+}
+
+Statement & Statement::where(std::string column, int value) {
+	std::ostringstream oss;
+	oss << value;
+
+	_where = std::pair<std::string, std::string>(column, oss.str());
+	return *this;
+}
+
+Statement & Statement::where(std::string column, double value) {
+	std::ostringstream oss;
+	oss << value;
+
+	_where = std::pair<std::string, std::string>(column, oss.str());
+	return *this;
+}
+
 void Statement::populate(std::function<void(int, size_t, void *)>f) {
 	for (int i = 0; i < this->_columns.size(); ++i) {
 		f(i + 1, this->_columns[i].type_hash, this->_columns[i].value);
@@ -45,6 +66,14 @@ std::string Statement::columns() {
 		first = false;
 		oss << _columns[i].column;
 	}
+
+	return oss.str();
+}
+
+std::string Statement::where() {
+	std::ostringstream oss;
+	// Change operator...
+	oss << _where.first << " = " << _where.second;
 
 	return oss.str();
 }

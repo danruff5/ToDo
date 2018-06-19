@@ -38,6 +38,7 @@ int SQLiteCallback(void * v, int argc, char * * argv, char * * azColName) {
 
 void SqliteDatabase::execute(std::string sql) {
 	char * errMsg = 0;
+	// blindly run the sql.
 	if (sqlite3_exec(db, sql.c_str(), SQLiteCallback, 0, &errMsg) != 0) {
 		// TODO: better error handling.
 		printf("%s\n", errMsg);
@@ -71,7 +72,15 @@ Result SqliteDatabase::execute(Statement stmt) {
 			break;
 		case Statement::action_t::selects:
 			// SELECT columns FROM table WHERE column = ?1 [AND|OR] ...;
-			oss << "SELECT " << stmt.columns() << " FROM " << stmt.table();
+			if (stmt.count() == 0) {
+				oss << "SELECT * FROM " << stmt.table();
+			} else {
+				oss << "SELECT " << stmt.columns() << " FROM " << stmt.table();
+			}
+
+			// modify if no where condition.
+			oss << " WHERE " << stmt.where();
+			
 
 			break;
 	}
@@ -86,7 +95,7 @@ Result SqliteDatabase::execute(Statement stmt) {
 		NULL
 	);
 
-	printf("SQLite error: %s\n", sqlite3_errmsg(db));
+	//printf("SQLite error: %s\n", sqlite3_errmsg(db));
 
 	stmt.populate([s] (int id, size_t type_hash, void * value) {
 		if (type_hash == typeid(int).hash_code()) {
@@ -103,9 +112,9 @@ Result SqliteDatabase::execute(Statement stmt) {
 		}
 		
 	});
-	printf("SQLite error: %s\n", sqlite3_errmsg(db));
+	//printf("SQLite error: %s\n", sqlite3_errmsg(db));
 
-	// Execute (and retrieve data....).
+	// Execute and retrieve data.
 	Result result;
 
 	// while there are still rows in the result.

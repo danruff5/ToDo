@@ -21,6 +21,9 @@ public:
 	Statement & string(std::string column, std::string & value);
 	Statement & number(std::string column, int value);
 	Statement & decimal(std::string column, double value);
+	Statement & where(std::string column, std::string value);
+	Statement & where(std::string column, int value);
+	Statement & where(std::string column, double value);
 
 private:
 	struct item {
@@ -40,6 +43,9 @@ private:
 	std::vector<item> _columns;
 	action_t _action;
 	std::string _table;
+	// Could make a vector to have multiple where's.
+	// Add in operator...
+	std::pair<std::string, std::string> _where;
 
 
 public:
@@ -48,6 +54,7 @@ public:
 	unsigned int count() { return this->_columns.size(); }
 
 	std::string columns();
+	std::string where();
 	void populate(std::function<void(int, size_t, void *)>f);
 };
 

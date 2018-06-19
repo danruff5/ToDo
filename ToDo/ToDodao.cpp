@@ -49,7 +49,7 @@ void ToDodao::update(ToDoItem & item) {
 ToDoItem ToDodao::get(int id) {
 	Statement stmt(Statement::action_t::selects, "todo");
 
-	stmt.number("id", id);
+	stmt.where("id", id);
 	Result result = db->execute(stmt);
 
 	ToDoItem item;
@@ -57,8 +57,17 @@ ToDoItem ToDodao::get(int id) {
 	item.title = result.string(1);
 	item.description = result.string(2);
 	std::istringstream iss(result.string(3));
-	iss >> std::get_time(&item.due_date, "d/m/Y");
+	iss >> std::get_time(&item.due_date, "%d/%m/%Y");
 	item.priority = (priority)result.number(4);
 
 	return item;
+}
+
+std::vector<ToDoItem> ToDodao::get_all() {
+	Statement stmt(Statement::action_t::selects, "todo");
+
+	stmt.where("id", id);
+	Result result = db->execute(stmt);
+
+	return std::vector<ToDoItem>();
 }
