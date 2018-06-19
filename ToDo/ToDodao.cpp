@@ -65,9 +65,21 @@ ToDoItem ToDodao::get(int id) {
 
 std::vector<ToDoItem> ToDodao::get_all() {
 	Statement stmt(Statement::action_t::selects, "todo");
-
-	stmt.where("id", id);
 	Result result = db->execute(stmt);
 
-	return std::vector<ToDoItem>();
+	std::vector<ToDoItem> v;
+
+	for (int i = 0; i < result.row_count(); ++i) {
+		ToDoItem item;
+		item.id = result.number(0, i);
+		item.title = result.string(1, i);
+		item.description = result.string(2, i);
+		std::istringstream iss(result.string(3, i));
+		iss >> std::get_time(&item.due_date, "%d/%m/%Y");
+		item.priority = (priority)result.number(4, i);
+
+		v.push_back(item);
+	}
+
+	return v;
 }

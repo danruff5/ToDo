@@ -52,6 +52,7 @@ public:
 	action_t action() { return this->_action; }
 	std::string table() { return this->_table; }
 	unsigned int count() { return this->_columns.size(); }
+	bool has_where() { return _where.first.length() != 0; }
 
 	std::string columns();
 	std::string where();

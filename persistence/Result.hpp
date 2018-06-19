@@ -11,6 +11,7 @@ public:
 	int number(int column, int row = 0);
 	double decimal(int column, int row = 0);
 	std::string string(int column, int row = 0);
+	int row_count() { return data.size(); }
 
 	void add_number(int * value);
 	void add_decimal(double * value);

@@ -78,9 +78,10 @@ Result SqliteDatabase::execute(Statement stmt) {
 				oss << "SELECT " << stmt.columns() << " FROM " << stmt.table();
 			}
 
-			// modify if no where condition.
-			oss << " WHERE " << stmt.where();
-			
+			if (stmt.has_where()) {
+				oss << " WHERE " << stmt.where();
+			}
+
 
 			break;
 	}
