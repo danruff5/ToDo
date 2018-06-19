@@ -49,7 +49,7 @@ Statement & Statement::where(std::string column, double value) {
 	return *this;
 }
 
-void Statement::populate(std::function<void(int, size_t, void *)>f) {
+void Statement::populate(std::function<void(int, size_t, void *)> f) {
 	for (int i = 0; i < this->_columns.size(); ++i) {
 		f(i + 1, this->_columns[i].type_hash, this->_columns[i].value);
 	}
@@ -68,6 +68,12 @@ std::string Statement::columns() {
 	}
 
 	return oss.str();
+}
+
+void Statement::columns(std::function<void(int, std::string)> f) {
+	for (int i = 0; i < this->_columns.size(); ++i) {
+		f(i + 1, this->_columns[i].column);
+	}
 }
 
 std::string Statement::where() {

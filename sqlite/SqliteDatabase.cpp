@@ -64,6 +64,15 @@ Result SqliteDatabase::execute(Statement stmt) {
 			break;
 		case Statement::action_t::updates:
 			// UPDATE table SET column = ?1, ... WHERE column = ?2 [AND|OR] ...;
+			oss << "UPDATE " << stmt.table() << " SET ";
+			stmt.columns([&oss](int id, std::string column) {
+				if (id != 1) oss << ", ";
+				oss << column << " = ?" << id;
+			});
+
+			if (stmt.has_where()) {
+				oss << " WHERE " << stmt.where();
+			}
 
 			break;
 		case Statement::action_t::deletes:

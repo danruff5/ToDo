@@ -34,16 +34,19 @@ void ToDodao::update(ToDoItem & item) {
 	Statement stmt(Statement::action_t::updates, "todo");
 
 	std::ostringstream oss;
-	oss << std::put_time(&item.due_date, "d/m/Y");
+	oss << std::put_time(&item.due_date, "%d/%m/%Y");
 	std::string s(oss.str());
 
-	stmt.number("id", item.id)
-	    .string("title", item.title)
+	stmt.string("title", item.title)
 	    .string("description", item.description)
 		.string("due_date", s)
-	    .number("priority", item.priority);
+	    .number("priority", item.priority)
+		.where("id", item.id);
 
 	db->execute(stmt);
+}
+
+void ToDodao::deletes(int id) {
 }
 
 ToDoItem ToDodao::get(int id) {

@@ -8,9 +8,8 @@ int main() {
 	iDatabase * db = new SqliteDatabase("tododb.db");
 	ToDodao dao(db);
 
-	std::vector<ToDoItem> v = dao.get_all();
+	ToDoItem item = dao.get(11);
+	item.description = "beep boop!";
 
-	for (ToDoItem i : v) {
-		std::cout << i.title << "\n" << i.description << "\n" << std::endl;
-	}
+	dao.deletes(item.id);
 }

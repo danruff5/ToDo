@@ -11,6 +11,7 @@ public:
 
 	void insert(ToDoItem & item);
 	void update(ToDoItem & item);
+	void deletes(int id);
 	ToDoItem get(int id);
 	std::vector<ToDoItem> get_all();
 };

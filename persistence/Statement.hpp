@@ -55,6 +55,7 @@ public:
 	bool has_where() { return _where.first.length() != 0; }
 
 	std::string columns();
+	void columns(std::function<void(int, std::string)>);
 	std::string where();
 	void populate(std::function<void(int, size_t, void *)>f);
 };
