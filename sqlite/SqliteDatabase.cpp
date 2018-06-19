@@ -98,7 +98,6 @@ Result SqliteDatabase::execute(Statement stmt) {
 				oss << " WHERE " << stmt.where();
 			}
 
-
 			break;
 	}
 	oss << ";";
@@ -112,8 +111,6 @@ Result SqliteDatabase::execute(Statement stmt) {
 		&s,
 		NULL
 	);
-
-	//printf("SQLite error: %s\n", sqlite3_errmsg(db));
 
 	stmt.populate([s] (int id, size_t type_hash, void * value) {
 		if (type_hash == typeid(int).hash_code()) {

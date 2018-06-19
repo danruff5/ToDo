@@ -44,7 +44,7 @@ private:
 	action_t _action;
 	std::string _table;
 	// Could make a vector to have multiple where's.
-	// Add in operator...
+	// Add in operator.
 	std::pair<std::string, std::string> _where;
 
 

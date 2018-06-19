@@ -18,11 +18,11 @@ void addMessage(std::string message) {
 }
 
 void showhelp() {
-	addMessage("help - display this help.");
-	addMessage("quit - exits the program.");
-	addMessage("add - create a new to do.");
-	addMessage("list - show all of the saved to do's.");
-	addMessage("edit - add a note to a to do.");
+	addMessage("help -   display this help.");
+	addMessage("quit -   exits the program.");
+	addMessage("add -    create a new to do.");
+	addMessage("list -   show all of the saved to do's.");
+	addMessage("edit -   add a note to a to do.");
 	addMessage("delete - remove a to do.");
 }
 

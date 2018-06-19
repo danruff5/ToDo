@@ -78,7 +78,7 @@ void Statement::columns(std::function<void(int, std::string)> f) {
 
 std::string Statement::where() {
 	std::ostringstream oss;
-	// Change operator...
+	// Change operator.
 	oss << _where.first << " = " << _where.second;
 
 	return oss.str();
