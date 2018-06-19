@@ -59,7 +59,7 @@ Result SqliteDatabase::execute(Statement stmt) {
 				if (i != 1) oss << ", ";
 				oss << "?" << i;
 			}
-			oss << ");";
+			oss << ")";
 
 			break;
 		case Statement::action_t::updates:
@@ -77,6 +77,13 @@ Result SqliteDatabase::execute(Statement stmt) {
 			break;
 		case Statement::action_t::deletes:
 			// DELETE FROM table WHERE column = ?1 [AND|OR] ...;
+			if (stmt.count() == 0) {
+				oss << "DELETE FROM " << stmt.table();
+			}
+
+			if (stmt.has_where()) {
+				oss << " WHERE " << stmt.where();
+			}
 
 			break;
 		case Statement::action_t::selects:
@@ -94,6 +101,7 @@ Result SqliteDatabase::execute(Statement stmt) {
 
 			break;
 	}
+	oss << ";";
 
 	// Use statment to populate the statment.
 	sqlite3_stmt * s;

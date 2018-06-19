@@ -47,6 +47,10 @@ void ToDodao::update(ToDoItem & item) {
 }
 
 void ToDodao::deletes(int id) {
+	Statement stmt(Statement::action_t::deletes, "todo");
+	stmt.where("id", id);
+
+	db->execute(stmt);
 }
 
 ToDoItem ToDodao::get(int id) {
