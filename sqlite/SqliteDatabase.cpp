@@ -4,6 +4,7 @@
 #include <typeinfo>
 
 // Check windows (the pointer to a char pointer type changes based on version and typeid(char * *) does not match ever.
+// ignoreing other compilers.
 #if _WIN32 || _WIN64
 	#if _WIN64
 		#define CHAR_PTR_TYPE char * __ptr64
