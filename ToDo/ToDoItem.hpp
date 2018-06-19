@@ -17,6 +17,19 @@ struct ToDoItem {
 	std::string description;
 	std::tm due_date;
 	priority priority;
+
+	std::string priority_name() {
+		switch (priority) {
+			case low:
+				return "low";
+			case meduim:
+				return "medium";
+			case high:
+				return "high";
+			case extreme:
+				return "extreme";
+		}
+	}
 };
 
 #endif // !_ToDoItem_HG_
