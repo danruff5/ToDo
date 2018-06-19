@@ -24,7 +24,7 @@ Visual studio projects:
 
 
 Comands:
-|Command |Description                     |
+| Command | Description                   |
 |--------|--------------------------------|
 | help   | display this help.             |
 | quit   | exits the program.             |
